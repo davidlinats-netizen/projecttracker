@@ -169,6 +169,9 @@ export async function updateUserRoleAction(formData: FormData) {
   if (error) flash("/settings", "error", error.message || "User access could not be updated.");
   revalidatePath("/");
   revalidatePath("/settings");
+  revalidatePath("/editors");
+  revalidatePath("/projects");
+  revalidatePath("/my-projects");
   flash("/settings", "success", "User access updated.");
 }
 
