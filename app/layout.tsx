@@ -14,7 +14,7 @@ const navItems = [
   { href: "/projects", label: "Projects", icon: "▤" },
   { href: "/editors", label: "Editors", icon: "♙", admin: true },
   { href: "/my-projects", label: "My Projects", icon: "✓" },
-  { href: "/settings", label: "Settings", icon: "⚙", admin: true },
+  { href: "/settings", label: "Settings", icon: "⚙" },
 ];
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
