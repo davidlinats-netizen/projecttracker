@@ -146,6 +146,10 @@ begin
 
   -- Non-admin users can change status only. RLS also restricts them to assigned projects.
   if tg_op = 'UPDATE' and (select auth.uid()) is not null and not public.is_admin() then
+    if new.status = 'Cancelled' and old.status is distinct from new.status then
+      raise exception 'Only administrators can cancel projects.';
+    end if;
+
     if new.project_name is distinct from old.project_name
        or new.description is distinct from old.description
        or new.editor_id is distinct from old.editor_id
