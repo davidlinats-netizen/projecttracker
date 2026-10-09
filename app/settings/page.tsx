@@ -64,12 +64,10 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
               <td><strong>{user.name || "Unnamed user"}</strong><span className="cellSub">{user.email}</span>{user.id === profile.id ? <span className="cellSub">Your account</span> : null}</td>
               <td><span className={"status " + (user.role === "admin" ? "status-active" : "status-in-progress")}>{user.role === "admin" ? "Administrator" : "Editor"}</span></td>
               <td>{user.editor_id ? editors.find((editor) => editor.id === user.editor_id)?.full_name || "Editor record unavailable" : <span className="muted">Not linked</span>}</td>
-              <td><form action={updateUserRoleAction} className="settingsAccessForm">
+              <td><form action={updateUserRoleAction} className="accessForm">
                 <input type="hidden" name="id" value={user.id} />
-                <label className="visuallyHidden" htmlFor={"role-" + user.id}>Role for {user.email}</label>
-                <select id={"role-" + user.id} name="role" defaultValue={user.role}><option value="editor">Editor</option><option value="admin">Administrator</option></select>
-                <label className="visuallyHidden" htmlFor={"editor-" + user.id}>Linked editor for {user.email}</label>
-                <select id={"editor-" + user.id} name="editor_id" defaultValue={user.editor_id || ""}><option value="">Not linked</option>{editors.map((editor) => <option key={editor.id} value={editor.id}>{editor.full_name}{editor.is_active ? "" : " (inactive)"}</option>)}</select>
+                <select aria-label={"Role for " + user.email} name="role" defaultValue={user.role}><option value="editor">Editor</option><option value="admin">Administrator</option></select>
+                <select aria-label={"Linked editor for " + user.email} name="editor_id" defaultValue={user.editor_id || ""}><option value="">Not linked</option>{editors.map((editor) => <option key={editor.id} value={editor.id}>{editor.full_name}{editor.is_active ? "" : " (inactive)"}</option>)}</select>
                 <SubmitButton className="button buttonSecondary buttonSmall">Save</SubmitButton>
               </form></td>
             </tr>)}
