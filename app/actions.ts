@@ -161,7 +161,8 @@ export async function updateUserRoleAction(formData: FormData) {
   const { supabase, profile: actor } = await requireAdmin();
   const id = field(formData, "id");
   const role = field(formData, "role");
-  const editor_id = field(formData, "editor_id") || null;
+  const requested_editor_id = field(formData, "editor_id") || null;
+  const editor_id = role === "editor" ? requested_editor_id : null;
   if (!id || !["admin", "editor"].includes(role)) flash("/settings", "error", "Choose a valid account and role.");
   if (id === actor.id && role !== "admin") flash("/settings", "error", "You cannot remove your own administrator access.");
   const { error } = await supabase.from("users").update({ role, editor_id }).eq("id", id);
@@ -176,7 +177,8 @@ export async function inviteUserAction(formData: FormData) {
   const email = field(formData, "email").toLowerCase();
   const name = field(formData, "name");
   const role = field(formData, "role");
-  const editor_id = field(formData, "editor_id") || null;
+  const requested_editor_id = field(formData, "editor_id") || null;
+  const editor_id = role === "editor" ? requested_editor_id : null;
   const secret = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (!url || !secret) flash("/settings", "error", "To send invitations, configure SUPABASE_SECRET_KEY as a private server environment variable.");
